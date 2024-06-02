@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input, InputNumber, Select, message } from 'antd';
+import { Modal, Button, Form, Input, InputNumber, Select, message, Space } from 'antd';
 
 const { Option } = Select;
 
@@ -66,15 +66,12 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     };
 
     const handleCancel = () => {
+        onReset();
         setIsModalOpen(false);
         message.error('No user was added');
     };
 
     const [form] = Form.useForm();
-  
-    const onFinish = (values) => {
-      console.log('onFinish', values);
-    };
   
     const onReset = () => {
         setUser({ 
@@ -123,12 +120,11 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                 {...layout}
                 form={form}
                 name="control-hooks"
-                onFinish={onFinish}
+                onFinish={handleOk}
                 style={{ maxWidth: 600 }}
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
                     <Input 
-                        required
                         placeholder="Fill your first name"
                         onChange={ (e) => handleFirstNameChange(e.target.value) } 
                         value={ user.firstName }
@@ -181,9 +177,13 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         value={ user.address }
                     />
                 </Form.Item>
-                {/* <Form.Item>
-                    <Button type="primary" onClick={handleOk} htmlType='submit'>Submit</Button>
-                </Form.Item> */}
+                <Form.Item>
+                    <Space>
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
+                    </Space>
+                </Form.Item>
             </Form>
         </Modal>
     </div>
