@@ -7,6 +7,7 @@ export const Types = {
     WARN_DELETING_USER: 'users/warn_deleting_user',
     GET_CREATE_USERS: 'users/get_create_users',
     GET_NON_DELETE_USERS: 'users/get_non_delete_users',
+    GET_NON_DELETE_USERS_REQUEST: 'users/get_non_delete_users_request',
 }
 
 export const getUsersRequest = () => ({
@@ -59,6 +60,13 @@ export const getCreateUsers = (createUser) => ({
 
 export const getNonDeleteUsers = (userId) => ({
     type: Types.GET_NON_DELETE_USERS,
+    payload: {
+        userId
+    }
+});
+
+export const getNonDeleteUsersRequest = (userId) => ({
+    type: Types.GET_NON_DELETE_USERS_REQUEST,
     payload: {
         userId
     }

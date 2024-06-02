@@ -1,4 +1,5 @@
 import { Types } from "../actions/users";
+import { message } from 'antd';
 
 const INITIAL_STATE = {
     items: [],
@@ -36,18 +37,19 @@ export default function users(state = INITIAL_STATE, action) {
             };
         }
         case Types.GET_NON_DELETE_USERS: {
-            const { items, error, userId } = state; 
+            const { items, error } = state; 
+            const userId = action.payload.userId;
             const newItems = items.filter((user) => {
-                const { id } = user;
-                if (id === userId) {
+                if (user.id === userId) {
                     return false;
                 }
                 return user;            
             });
+            message.success(`The id-${userId} user was deleted`);
             return {
                 items: newItems,
                 error,
-                userId
+                userId: ''
             };
         }
         default: {

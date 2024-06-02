@@ -55,7 +55,6 @@ function* watchCreateUserRequest() {
 function* getNonDeleteUsers(userId) {
     try {
         yield put(actions.getNonDeleteUsers(userId));
-        
     } catch(e) {
         yield put(actions.fireUserError('An error occurred when trying to get the non-delete users'));
     }
@@ -82,13 +81,23 @@ function* watchDeleteUserRequest() {
     }
 }
 
+
+function* watchGetNonDeleteUsersRequest() {
+    while(true) {
+        const action = yield take(actions.Types.GET_NON_DELETE_USERS_REQUEST); // blocking: wait
+        yield call(getNonDeleteUsers, action.payload.userId);    
+    }
+}
+
+
 const UsersSagas = [
     // there are tasks that is a process running in background
     // using fork to create tasks
     // fork is non-blocking: non wait
     fork(watchGetUsersRequest), 
     fork(watchCreateUserRequest), 
-    fork(watchDeleteUserRequest)
+    fork(watchDeleteUserRequest),
+    fork(watchGetNonDeleteUsersRequest),
 ];
 
 export default UsersSagas;
