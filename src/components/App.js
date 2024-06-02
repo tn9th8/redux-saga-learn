@@ -10,6 +10,7 @@ import UsersList from './UserList';
 import NewUserForm from './NewUserForm';
 import ModalDeleteUser from './ModalDeleteUser';
 import { Alert } from 'reactstrap';
+import UsersListAnt from './UserListAnt';
 
 class App extends Component {
   constructor(props) {
@@ -38,11 +39,12 @@ class App extends Component {
 
   render() {
     const users = this.props.users;
-    console.log('user', users)
+    console.log('app: user: ', users)
 
     return (
-      <div style={{margin: '0 auto', padding: '20px', maxWidth: '600px'}}>
-        <Alert color="danger" isOpen={ !!users.error } toggle={ this.handleCloseAlert }>
+      <div style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
+        <UsersListAnt users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/>
+        {/* <Alert color="danger" isOpen={ !!users.error } toggle={ this.handleCloseAlert }>
           { users.error }
         </Alert>
 
@@ -53,7 +55,7 @@ class App extends Component {
 
         <NewUserForm onSubmit={ this.handleSubmit }/>
 
-        <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/>
+        <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/> */}
         
       </div>
     );

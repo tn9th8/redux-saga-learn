@@ -7,6 +7,7 @@ function* getUsers() {
     try {
         // here is a effect that a plain JS object containing instructions for saga middleware executes
         const result = yield call(api.getUsers); 
+        // console.log('GetUsersRequest: ', result.data);
         yield put(actions.getUsersSuccess({
             items: result.data.data // middleware send the action
         }));
