@@ -59,20 +59,9 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     };
 
     const handleOk = (e) => {
-        e.preventDefault();
-
+        // e.preventDefault();
         onSubmit(user);
-
-        setUser({ 
-            firstName:'', 
-            lastName: '',
-            age: 0,
-            role: [''],
-            address: ''
-        });
-
         onReset();
-
         setIsModalOpen(false);
     };
 
@@ -88,7 +77,14 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     };
   
     const onReset = () => {
-      form.resetFields();
+        setUser({ 
+            firstName:'', 
+            lastName: '',
+            age: 0,
+            role: [''],
+            address: ''
+        });
+        form.resetFields();
     };
   
     const onFill = () => {
@@ -117,14 +113,9 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                 <>
                     <CancelBtn />
                     {/* <OkBtn /> */}
-                    <Button type="primary" onClick={
-                        handleOk
-                        //() => onSubmit(user)
-                    }>
-                            Submit
-                    </Button>
-                  <Button type="primary" onClick={onReset}>Reset</Button>
-                  <Button type="primary" onClick={onFill}>Fill form</Button>
+                    <Button type="primary" onClick={handleOk}>Submit</Button>
+                    <Button type="primary" onClick={onReset}>Reset</Button>
+                    <Button type="primary" onClick={onFill}>Fill form</Button>
                 </>
               )}
         >
@@ -190,6 +181,9 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         value={ user.address }
                     />
                 </Form.Item>
+                {/* <Form.Item>
+                    <Button type="primary" onClick={handleOk} htmlType='submit'>Submit</Button>
+                </Form.Item> */}
             </Form>
         </Modal>
     </div>

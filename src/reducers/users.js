@@ -30,7 +30,7 @@ export default function users(state = INITIAL_STATE, action) {
         case Types.GET_CREATE_USERS: {
             const { items, error, userId } = state;
             items.unshift(action.payload.createUser)
-            message.success(`The id-${userId} user was added`);
+            message.success(`The id-${action.payload.createUser.id} user was added`);
             return {
                 items,
                 error,

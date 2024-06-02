@@ -32,9 +32,6 @@ const UsersListAnt = ({ users, onDeleteUser }) => {
 
     return (
       <div>
-        {/* <Button onClick={ () => onCreateUser() } type="primary" style={{ marginBottom: 16 }}>
-          Add
-        </Button> */}
         <Table dataSource={newUsers}>
           <columns
             title = 'Name'
