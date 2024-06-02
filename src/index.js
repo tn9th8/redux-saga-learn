@@ -1,14 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import App from './components/App'
 import reportWebVitals from './reportWebVitals';
+import axios  from 'axios';
+import reducers from './reducers';
+import { Provider } from 'react-redux';
+import { legacy_createStore as createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import rootSaga from './sagas';
 
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'https://rem.dbwebb.se/api';
+
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+sagaMiddleware.run(rootSaga);
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    <React.StrictMode>
+      <App /> 
+    </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
