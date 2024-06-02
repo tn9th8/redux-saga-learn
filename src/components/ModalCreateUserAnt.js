@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input, InputNumber, Select } from 'antd';
+import { Modal, Button, Form, Input, InputNumber, Select, message } from 'antd';
 
 const { Option } = Select;
 
@@ -15,7 +15,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         firstName:'', 
         lastName: '',
         age: 0,
-        role: '',
+        role: [''],
         address: ''
     });
 
@@ -43,7 +43,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     const handleRoleChange = e => {
         setUser((prevUser) => ({
             ...prevUser,
-            role: e
+            role: [e]
         }));
     }
 
@@ -61,21 +61,24 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     const handleOk = (e) => {
         e.preventDefault();
 
-        onSubmit(user)
+        onSubmit(user);
 
         setUser({ 
             firstName:'', 
             lastName: '',
             age: 0,
-            role: '',
+            role: [''],
             address: ''
         });
+
+        onReset();
 
         setIsModalOpen(false);
     };
 
     const handleCancel = () => {
         setIsModalOpen(false);
+        message.error('No user was added');
     };
 
     const [form] = Form.useForm();
@@ -93,7 +96,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
             firstName: 'Trung Nhan', 
             lastName: 'Nguyen', 
             age: 20, 
-            role: 'Developer', 
+            role: ['Developer'], 
             address: 'Thu Duc, HCM, VN' 
         };
         form.setFieldsValue(fillUser);
@@ -134,6 +137,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
                     <Input 
+                        required
                         placeholder="Fill your first name"
                         onChange={ (e) => handleFirstNameChange(e.target.value) } 
                         value={ user.firstName }

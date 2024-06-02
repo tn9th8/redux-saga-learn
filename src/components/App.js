@@ -7,9 +7,9 @@ import {
   fireUserError,
   getNonDeleteUsersRequest 
 } from '../actions/users';
-import UsersList from './UserList';
-import NewUserForm from './NewUserForm';
-import ModalDeleteUser from './ModalDeleteUser';
+// import UsersList from './UserList';
+// import NewUserForm from './NewUserForm';
+// import ModalDeleteUser from './ModalDeleteUser';
 import { Alert } from 'reactstrap';
 import UsersListAnt from './UserListAnt';
 import ModalCreateUserAnt from './ModalCreateUserAnt';
@@ -21,7 +21,7 @@ class App extends Component {
     
   } 
 
-  handleSubmit = ({ firstName, lastName, age = 0, role = '', address = '' }) => {
+  handleSubmit = ({ firstName = '', lastName = '', age = 0, role = [''], address = '' }) => {
     this.props.createUsersRequest({
       firstName,
       lastName,
@@ -29,7 +29,6 @@ class App extends Component {
       role,
       address
     });
-    console.log('handleSubmit', firstName, lastName, age, role, address)
   };
 
   handleDeleteUserClick = ({ userId, confirm }) => {
@@ -64,7 +63,7 @@ class App extends Component {
           onDeleteUser={ this.handleDeleteUserConfirm } 
         />
 
-        <ModalDeleteUser 
+        {/* <ModalDeleteUser 
           userId={ users.userId } 
           onCancel={ this.handleDeleteUserClick } 
           onConfirm={ this.handleDeleteUserClick } 
@@ -72,7 +71,7 @@ class App extends Component {
 
         <NewUserForm onSubmit={ this.handleSubmit }/>
 
-        <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/>
+        <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/> */}
         
       </div>
     );

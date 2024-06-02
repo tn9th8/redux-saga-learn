@@ -24,9 +24,9 @@ const UsersListAnt = ({ users, onDeleteUser }) => {
       return {
         ...user,
         key: user.id,
-        age,
-        tags,
-        address,
+        age: user?.age ?? age,
+        tags: user?.role ?? tags,
+        address: user?.address ?? address,
       }
     });
 
