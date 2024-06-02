@@ -8,73 +8,6 @@ function getRandomElementFromArray(arr) {
   return arr[randomIndex];
 }
 
-const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (_, { firstName, lastName }) => (
-        <>{ firstName } { lastName }</>
-      ),
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-      render: (_, { age }) => (
-        <>{ age }</>
-      ),
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-      render: (_, { address }) => (
-        <>{ address }</>
-      ),
-    },
-    {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (_, { tags }) => (
-        <>
-          {
-            tags.map((tag) => {
-            let color = tag.length > 12 ? 'geekblue' : 'green';
-            if (tag === 'Project Manager') {
-              color = 'volcano';
-            }
-            if (tag === 'QA/QC') {
-              color = 'gold';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, { id }) => (
-        <Flex wrap gap="small">
-          <Button type="primary" danger  >
-            Update
-          </Button>
-        </Flex>
-        // <Space size="middle">
-        //   <a>Invite</a>
-        //   <a>Update</a>
-        //   <a>Delete</a>
-        // </Space>
-      ),
-    },
-  ];
-
 const UsersListAnt = ({users, onDeleteUser}) => {
 
     const rawTags = [ 'Project Manager', 'Business Analyst', 'Developer', 'QA/QC' ];
@@ -95,7 +28,72 @@ const UsersListAnt = ({users, onDeleteUser}) => {
     });
 
     return (
-        <Table columns={columns} dataSource={newUsers} />
+        // <Table columns={columns} dataSource={newUsers} />
+      <Table dataSource={newUsers}>
+        <columns
+          title = 'Name'
+          dataIndex = 'name'
+          key = 'name'
+          render = {(_, { firstName, lastName }) => (
+            <>{ firstName } { lastName }</>
+          )}
+        />
+        <columns
+          title = 'Age'
+          dataIndex = 'age'
+           key = 'age'
+          render = {(_, { age }) => (
+            <>{ age }</>
+          )}
+        />
+        <columns
+          title = 'Address'
+          dataIndex = 'address'
+          key = 'address'
+          render = {(_, { address }) => (
+            <>{ address }</>
+          )}
+        />
+        <columns
+          title = 'Role'
+          key = 'tags'
+          dataIndex = 'tags'
+          render = {(_, { tags }) => (
+            <>
+              { tags.map((tag) => {
+                let color = tag.length > 12 ? 'geekblue' : 'green';
+                if (tag === 'Project Manager') {
+                  color = 'volcano';
+                }
+                if (tag === 'QA/QC') {
+                  color = 'gold';
+                }
+                return (
+                  <Tag color={color} key={tag}>
+                    {tag.toUpperCase()}
+                  </Tag>
+                );
+              })}
+            </>
+          )}
+        />
+        <columns
+          title = 'Action'
+          key = 'action'
+          render = {(_, { id }) => (
+            <Flex wrap gap="small">
+              <Button type="primary" danger  >
+                Delete
+              </Button>
+            </Flex>
+            // <Space size="middle">
+            //   <a>Invite</a>
+            //   <a>Update</a>
+            //   <a>Delete</a>
+            // </Space>
+          )}
+        />
+      </Table>
     )
 };
 
