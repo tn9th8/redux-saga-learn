@@ -8,6 +8,10 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
+const tailLayout = {
+    wrapperCol: { offset: 6, span: 16 },
+};
+
 const ModalCreateUserAnt = ({onSubmit}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -59,7 +63,6 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     };
 
     const handleOk = (e) => {
-        // e.preventDefault();
         onSubmit(user);
         onReset();
         setIsModalOpen(false);
@@ -106,15 +109,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
             open={ isModalOpen } 
             // onOk={handleOk} 
             onCancel={handleCancel}
-            footer={(_, { CancelBtn }) => (
-                <>
-                    <CancelBtn />
-                    {/* <OkBtn /> */}
-                    <Button type="primary" onClick={handleOk}>Submit</Button>
-                    <Button type="primary" onClick={onReset}>Reset</Button>
-                    <Button type="primary" onClick={onFill}>Fill form</Button>
-                </>
-              )}
+            footer={() => {}}
         >
             <Form
                 {...layout}
@@ -177,10 +172,19 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         value={ user.address }
                     />
                 </Form.Item>
-                <Form.Item>
-                    <Space>
+                <Form.Item {...tailLayout}>
+                    <Space>                        
+                        <Button onClick={onFill}>
+                            Fill form
+                        </Button>
+                        <Button onClick={onReset}>
+                            Reset
+                        </Button>
                         <Button type="primary" htmlType="submit">
                             Submit
+                        </Button>
+                        <Button onClick={handleCancel}>
+                            Cancel
                         </Button>
                     </Space>
                 </Form.Item>
