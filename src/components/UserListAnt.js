@@ -12,7 +12,7 @@ const cancel = (e) => {
   message.error('No user was deleted');
 };
 
-const UsersListAnt = ({ users, onDeleteUser, onCreateUser }) => {
+const UsersListAnt = ({ users, onDeleteUser }) => {
 
     const rawTags = [ 'Project Manager', 'Business Analyst', 'Developer', 'QA/QC' ];
     const rawAddress = ['Thu Duc, HCM, VN', 'Q9, HCM, VN', 'Q2, HCM, VN'];
@@ -32,9 +32,9 @@ const UsersListAnt = ({ users, onDeleteUser, onCreateUser }) => {
 
     return (
       <div>
-        <Button onClick={ () => onCreateUser() } type="primary" style={{ marginBottom: 16 }}>
+        {/* <Button onClick={ () => onCreateUser() } type="primary" style={{ marginBottom: 16 }}>
           Add
-        </Button>
+        </Button> */}
         <Table dataSource={newUsers}>
           <columns
             title = 'Name'

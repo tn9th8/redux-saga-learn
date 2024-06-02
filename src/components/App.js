@@ -15,19 +15,21 @@ import UsersListAnt from './UserListAnt';
 import ModalCreateUserAnt from './ModalCreateUserAnt';
 
 class App extends Component {
-  state = { isModalOpen: false };
-
   constructor(props) {
     super(props);
     this.props.getUsersRequest();
     
   } 
 
-  handleSubmit = ({ firstName, lastName }) => {
+  handleSubmit = ({ firstName, lastName, age = 0, role = '', address = '' }) => {
     this.props.createUsersRequest({
       firstName,
-      lastName
+      lastName,
+      age,
+      role,
+      address
     });
+    console.log('handleSubmit', firstName, lastName, age, role, address)
   };
 
   handleDeleteUserClick = ({ userId, confirm }) => {
@@ -45,11 +47,6 @@ class App extends Component {
     this.props.fireUserError('');
   };
 
-  showModal = () => {
-    // setIsModalOpen(true);
-    this.setState = { isModalOpen: true }
-  };
-
   render() {
     const users = this.props.users;
     console.log('app: user: ', users)
@@ -60,17 +57,12 @@ class App extends Component {
           { users.error }
         </Alert>
 
+        <ModalCreateUserAnt onSubmit={ this.handleSubmit } />
+
         <UsersListAnt 
           users={ users.items } 
           onDeleteUser={ this.handleDeleteUserConfirm } 
-          onCreateUser={ () => { this.setState({ isModalOpen: true }) } }
         />
-
-        <ModalCreateUserAnt isModalOpen={ this.state.isModalOpen } />
-
-        {
-          console.log(this.state.isModalOpen)
-        }
 
         <ModalDeleteUser 
           userId={ users.userId } 
@@ -80,7 +72,7 @@ class App extends Component {
 
         <NewUserForm onSubmit={ this.handleSubmit }/>
 
-        {/* <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/> */}
+        <UsersList users={ users.items } onDeleteUser={ this.handleDeleteUserClick }/>
         
       </div>
     );

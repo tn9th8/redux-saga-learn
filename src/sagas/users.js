@@ -31,17 +31,18 @@ function* getCreateUsers(createUser) {
 let id = 12;
 function* createUser(action) {
     try {
-        // call api create user
-        yield call(api.createUser, {
-            firstName: action.payload.firstName,
-            lastName: action.payload.lastName
-        });
+        // // call api create user
+        // yield call(api.createUser, {
+        //     firstName: action.payload.firstName,
+        //     lastName: action.payload.lastName
+        // });
         // show new user in local
         yield id++;
         yield call(getCreateUsers, {
             id,
-            firstName: action.payload.firstName,
-            lastName: action.payload.lastName
+            ...action.payload
+            // firstName: action.payload.firstName,
+            // lastName: action.payload.lastName
         });
     } catch(e) {
         yield put(actions.fireUserError('An error occurred when trying to create the user'));
