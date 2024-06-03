@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input, InputNumber, Select, message, Space } from 'antd';
+import useCustomHook from '../customize/useModalHook';
 
 const { Option } = Select;
 
@@ -10,6 +11,7 @@ const layout = {
 
 const ModalCreateUserAnt = ({onSubmit}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [open, handle] = useCustomHook();
 
     const [user, setUser] = useState({ 
         firstName:'', 
@@ -55,19 +57,22 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     }
 
     const showModal = () => {
-        setIsModalOpen(true);
+        // setIsModalOpen(true);
+        handle.open();
     };
 
     const handleOk = (e) => {
         // e.preventDefault();
         onSubmit(user);
         onReset();
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
+        handle.close();
     };
 
     const handleCancel = () => {
         onReset();
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
+        handle.close();
         message.error('No user was added');
     };
 
@@ -103,7 +108,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         </Button>
         <Modal 
             title="Create a user" 
-            open={ isModalOpen } 
+            open={ open } 
             // onOk={handleOk} 
             onCancel={handleCancel}
             footer={(_, { CancelBtn }) => (
