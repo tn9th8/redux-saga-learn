@@ -13,7 +13,7 @@ const tailLayout = {
     wrapperCol: { offset: 6, span: 16 },
 };
 
-const ModalCreateUserAnt = ({onSubmit}) => {
+const ModalCreateUser = ({onSubmit}) => {
     const [open, handle] = useCustomHook();
     const [form] = Form.useForm();
     const [user, setUser] = useState({ 
@@ -195,4 +195,4 @@ const ModalCreateUserAnt = ({onSubmit}) => {
     );
 };
 
-export default ModalCreateUserAnt;
+export default ModalCreateUser;

@@ -7,8 +7,8 @@ import {
   getNonDeleteUsersRequest,
   getUsersRequest
 } from '../actions/users';
-import ModalCreateUserAnt from './ModalCreateUserAnt';
-import UsersListAnt from './UserListAnt';
+import ModalCreateUser from './ModalCreateUser';
+import UsersList from './UserList';
 
 class App extends Component {
   constructor(props) {
@@ -51,12 +51,12 @@ class App extends Component {
           { users.error }
         </Alert> */}
 
-        <ModalCreateUserAnt onSubmit={ this.handleSubmit } />
-
-        <UsersListAnt 
+        <ModalCreateUser onSubmit={ this.handleSubmit } />
+        
+        <UsersList 
           users={ users.items } 
           onDeleteUser={ this.handleDeleteUserConfirm } 
-      /></div>
+        /></div>
     );
   }
 }
