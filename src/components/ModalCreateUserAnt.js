@@ -9,10 +9,13 @@ const layout = {
   wrapperCol: { span: 16 },
 };
 
-const ModalCreateUserAnt = ({onSubmit}) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [open, handle] = useCustomHook();
+const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+  };
 
+const ModalCreateUserAnt = ({onSubmit}) => {
+    const [open, handle] = useCustomHook();
+    const [form] = Form.useForm();
     const [user, setUser] = useState({ 
         firstName:'', 
         lastName: '',
@@ -21,6 +24,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         address: ''
     });
 
+    // handle on change inputs
     const handleFirstNameChange = (value) => {
         setUser((prevUser) => ({
             ...prevUser,
@@ -56,29 +60,25 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         }));
     }
 
+    // handle add button
     const showModal = () => {
-        // setIsModalOpen(true);
         handle.open();
     };
 
-    const handleOk = (e) => {
-        // e.preventDefault();
+    // handle form
+    const handleFinish = (e) => {
         onSubmit(user);
-        onReset();
-        // setIsModalOpen(false);
+        handleReset();
         handle.close();
     };
 
     const handleCancel = () => {
-        onReset();
-        // setIsModalOpen(false);
+        handleReset();
         handle.close();
         message.error('No user was added');
     };
-
-    const [form] = Form.useForm();
   
-    const onReset = () => {
+    const handleReset = () => {
         setUser({ 
             firstName:'', 
             lastName: '',
@@ -89,7 +89,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         form.resetFields();
     };
   
-    const onFill = () => {
+    const handleFill = () => {
         const fillUser = { 
             firstName: 'Trung Nhan', 
             lastName: 'Nguyen', 
@@ -100,7 +100,7 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         form.setFieldsValue(fillUser);
         setUser(fillUser);
     };
-
+    
     return (
     <div>
         <Button onClick={ showModal } type="primary" style={{ marginBottom: 16 }}>
@@ -109,23 +109,14 @@ const ModalCreateUserAnt = ({onSubmit}) => {
         <Modal 
             title="Create a user" 
             open={ open } 
-            // onOk={handleOk} 
             onCancel={handleCancel}
-            footer={(_, { CancelBtn }) => (
-                <>
-                    <CancelBtn />
-                    {/* <OkBtn /> */}
-                    <Button type="primary" onClick={handleOk}>Submit</Button>
-                    <Button type="primary" onClick={onReset}>Reset</Button>
-                    <Button type="primary" onClick={onFill}>Fill form</Button>
-                </>
-              )}
+            footer={() => {}} // set Modal footer rong
         >
             <Form
                 {...layout}
                 form={form}
                 name="control-hooks"
-                onFinish={handleOk}
+                onFinish={handleFinish}
                 style={{ maxWidth: 600 }}
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
@@ -182,10 +173,19 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         value={ user.address }
                     />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item {...tailLayout}>
                     <Space>
+                        <Button onClick={handleFill}>
+                            Fill form
+                        </Button>
+                        <Button onClick={handleReset}>
+                            Reset
+                        </Button>
                         <Button type="primary" htmlType="submit">
                             Submit
+                        </Button>
+                        <Button onClick={handleCancel}>
+                            Cancel
                         </Button>
                     </Space>
                 </Form.Item>
