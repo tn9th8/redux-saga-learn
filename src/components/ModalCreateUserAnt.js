@@ -187,9 +187,6 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         <Button onClick={handleCancel}>
                             Cancel
                         </Button>
-                        <Button onClick={handleCancel}>
-                            Cancel
-                        </Button>
                     </Space>
                 </Form.Item>
             </Form>
