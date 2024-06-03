@@ -1,6 +1,9 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Tag, Button, Flex, message, Popconfirm } from 'antd';
+import useListPage from "../customize/useListPage";
+// import apiConfig from '../api/ApiConfig';
+import apiConfig from '../api/apiConfig';
 
 const getRandomElement = (arr) => {
   const randomIndex = Math.floor(Math.random() * arr.length);
@@ -99,14 +102,47 @@ const preprocessData = (users) => {
   });
 }
 
-const UsersList = ({ users, onDeleteUser }) => {
+const preprocessPagination = (pagination) => {
+  pagination = {
+    ...pagination,
+    limit: 5,
+  }
 
-    const data = preprocessData(users)
+  console.log('pagination', pagination)
+
+  const handlePageChange = (page) => {
+    console.log(page);
+    pagination = {
+      ...pagination,
+      limit: 5, 
+      offset: page * 5 + 1, 
+      total: 12
+    }
+    handlePaginationAnt()
+  }
+
+  function handlePaginationAnt() { 
+    return {
+      current: pagination.offset / pagination.limit + 1, // Trang hiện tại
+      pageSize: pagination.limit, // Số mục trên mỗi trang
+      total: pagination.total, // Tổng số mục dữ liệu
+      // showSizeChanger: true, // Cho phép chọn số mục trên trang
+      // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
+      onChange: handlePageChange // Hàm xử lý khi thay đổi trang
+    }
+  }
+
+  return handlePaginationAnt();
+}
+
+
+const UsersList = ({ users, onDeleteUser }) => {
+    const { data, pagination } = useListPage(apiConfig.user)
+    const dataSource = preprocessData(data)
+    const paginationAnt = preprocessPagination(pagination);
 
     return (
-      <div>
-        <Table columns={columns(onDeleteUser)} dataSource={data} />
-      </div>
+      <Table columns={columns(onDeleteUser)} dataSource={dataSource} pagination={paginationAnt}/>
     )
 };
 
