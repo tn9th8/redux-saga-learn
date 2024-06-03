@@ -10,8 +10,8 @@ const layout = {
 };
 
 const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
+    wrapperCol: { offset: 6, span: 16 },
+};
 
 const ModalCreateUserAnt = ({onSubmit}) => {
     const [open, handle] = useCustomHook();
@@ -183,6 +183,9 @@ const ModalCreateUserAnt = ({onSubmit}) => {
                         </Button>
                         <Button type="primary" htmlType="submit">
                             Submit
+                        </Button>
+                        <Button onClick={handleCancel}>
+                            Cancel
                         </Button>
                         <Button onClick={handleCancel}>
                             Cancel
