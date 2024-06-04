@@ -13,7 +13,7 @@ const tailLayout = {
     wrapperCol: { offset: 6, span: 16 },
 };
 
-const ModalCreateUser = ({onSubmit}) => {
+const ModalCreateUser = () => {
     const [open, handle] = useModal();
     const [form] = Form.useForm();
     const [user, setUser] = useState({ 
@@ -67,7 +67,8 @@ const ModalCreateUser = ({onSubmit}) => {
 
     // handle form
     const handleFinish = (e) => {
-        onSubmit(user);
+        // to do
+        // onSubmit(user);
         handleReset();
         handle.close();
     };

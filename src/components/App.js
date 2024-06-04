@@ -7,10 +7,8 @@ import {
   getNonDeleteUsersRequest,
   getUsersRequest
 } from '../actions/users';
-import ModalCreateUser from './ModalCreateUser';
-import UsersList from './UserList';
-import { Routes, Route} from 'react-router-dom';
-import UserForm from './UserForm';
+import { Routes, Route, BrowserRouter} from 'react-router-dom';
+import routesConfig from '../config/routesConfig'
 
 class App extends Component {
   constructor(props) {
@@ -43,28 +41,15 @@ class App extends Component {
     // const users = this.props.users; // console.log('app: user: ', users)
 
     return (
-      <div className='app' style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
-        <Routes>
-          <Route path='/users/list' element={
-            <div>
-                <ModalCreateUser onSubmit={ this.handleSubmit } />
-                <UsersList />
-            </div>
-          } />
-          <Route path='/users/form/:id' element={
-            <div>
-              <UserForm />
-            </div>
-          } />
-        </Routes>
-
-
-        {/* <UsersList 
-           users={ users.items } 
-           onDeleteUser={ this.handleDeleteUserConfirm } 
-        /> */}
-        
-      </div>
+      <BrowserRouter>
+        <div className='App' style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
+          <Routes>
+            {routesConfig.map((route) => (
+              <Route path={route.path} element={route.element} />
+            ))}
+          </Routes>   
+        </div>
+      </BrowserRouter>
     );
   }
 }

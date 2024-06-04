@@ -1,7 +1,7 @@
 import { Button, Form, Input, Space, message } from 'antd';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import apiConfig from '../api/apiConfig';
+import apiConfig from '../config/apiConfig'
 import useSavePage from '../customize/useSavePage';
 
 const layout = {
@@ -18,7 +18,7 @@ const UserForm = () => {
     const [data, setData, updateData] = useSavePage({apiObject: apiConfig.user, id})
     const [form] = Form.useForm();
     const navigate = useNavigate();
-    console.log(data);
+    // 1 id data ', id, data);
 
     // handle on change inputs
     const handleFirstNameChange = (value) => {
@@ -38,6 +38,7 @@ const UserForm = () => {
     // handle form
     const handleFinish = () => {
         updateData(data)
+        message.success(`Successfully updated the id-${data.id}`)
     };
 
     const handleCancel = () => {
@@ -63,7 +64,7 @@ const UserForm = () => {
                 name="control-hooks"
                 onFinish={handleFinish}
                 style={{ maxWidth: 600 }}
-                //initialValues={{firstName: data.firstName, lastName: data.lastName}}
+                // initialValues={{firstName: data.firstName, lastName: data.lastName}}
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
                     <Input 

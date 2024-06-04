@@ -1,7 +1,7 @@
 import { Table, Tag } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
-import apiConfig from '../api/apiConfig';
+import apiConfig from '../config/apiConfig'
 import useListPage from "../customize/useListPage";
 
 const getRandomElement = (arr) => {
@@ -80,6 +80,7 @@ const preprocessData = (users) => {
 
 const UsersList = () => {
     const [page, setPage] = useState(1);
+    // const [object] = useState('users');
     const { data, pagination, loading, renderAction } = useListPage({apiObject: apiConfig.user, page: page}) 
 
     const dataSource = preprocessData(data)
