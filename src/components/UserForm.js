@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, InputNumber, Select, message, Space } from 'antd';
-import { useParams } from 'react-router-dom';
-
-const { Option } = Select;
+import { Button, Form, Input, Space, message } from 'antd';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import apiConfig from '../api/apiConfig';
+import useSavePage from '../customize/useSavePage';
 
 const layout = {
   labelCol: { span: 6 },
@@ -13,158 +13,71 @@ const tailLayout = {
     wrapperCol: { offset: 6, span: 16 },
 };
 
-const UserForm = ({onSubmit}) => {
-    const { id } = useParams();
+const UserForm = () => {
+    const { id } = useParams(); 
+    const [data, setData, updateData] = useSavePage({apiObject: apiConfig.user, id})
     const [form] = Form.useForm();
-    const [user, setUser] = useState({ 
-        firstName:'', 
-        lastName: '',
-        age: 0,
-        role: [''],
-        address: ''
-    });
-
-    console.log('id ',id);
+    const navigate = useNavigate();
 
     // handle on change inputs
     const handleFirstNameChange = (value) => {
-        setUser((prevUser) => ({
+        setData((prevUser) => ({
             ...prevUser,
             firstName: value
         }));
     };
 
     const handleLastNameChange = (value) => {
-        setUser((prevUser) => ({
+        setData((prevUser) => ({
             ...prevUser,
             lastName: value
         }));
     };
 
-    const handleAgeChange = e => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            age: e
-        }));
-    }
-
-    const handleRoleChange = e => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            role: [e]
-        }));
-    }
-
-    const handleAddressChange = e => {
-        setUser((prevUser) => ({
-            ...prevUser,
-            address: e.target.value
-        }));
-    }
-
     // handle form
-    const handleFinish = (e) => {
-        onSubmit(user);
-        handleReset();
+    const handleFinish = () => {
+        updateData(data)
     };
 
     const handleCancel = () => {
-        handleReset();
-        message.error('No user was added');
+        navigate('/users/list');
+        message.info('Don\'t update any user')
     };
   
     const handleReset = () => {
-        setUser({ 
+        setData({ 
+            id,
             firstName:'', 
             lastName: '',
-            age: 0,
-            role: [''],
-            address: ''
         });
         form.resetFields();
     };
-  
-    const handleFill = () => {
-        const fillUser = { 
-            firstName: 'Trung Nhan', 
-            lastName: 'Nguyen', 
-            age: 20, 
-            role: ['Developer'], 
-            address: 'Thu Duc, HCM, VN' 
-        };
-        form.setFieldsValue(fillUser);
-        setUser(fillUser);
-    };
-    
-    return (
-    <div>
 
+    form.setFieldsValue(data);
+    return (
+        <div>
             <Form
                 {...layout}
                 form={form}
                 name="control-hooks"
                 onFinish={handleFinish}
                 style={{ maxWidth: 600 }}
+                // initialValues={{firstName: data.firstName, lastName: data.lastName}}
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
                     <Input 
-                        placeholder="Fill your first name"
                         onChange={ (e) => handleFirstNameChange(e.target.value) } 
-                        value={ user.firstName }
+                        value={ data.firstName }
                     />
                 </Form.Item>
                 <Form.Item name="lastName" label="Last name" rules={[{ required: true }]}>
                     <Input 
-                        placeholder="Fill your last name"
                         onChange={ (e) => handleLastNameChange(e.target.value) } 
-                        value={ user.lastName }
-                    />
-                </Form.Item>
-                <Form.Item name="age" label="Age" rules={[{ required: true }]}>
-                    <InputNumber 
-                        placeholder="Fill your age"
-                        onChange={ handleAgeChange } 
-                        value={ user.age }
-                    />
-                </Form.Item>
-                <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-                    <Select
-                        placeholder="Select your role"
-                        onChange={ handleRoleChange } 
-                        value={ user.role }
-                        allowClear
-                    >
-                        <Option value="Project Manager">Project Manager</Option>
-                        <Option value="Business Analyst">Business Analyst</Option>
-                        <Option value="Developer">Developer</Option>
-                        <Option value="QA/QC">QA/QC</Option>
-                        <Option value="Other">Other</Option>
-                    </Select>
-                </Form.Item>
-                <Form.Item
-                    noStyle
-                    shouldUpdate={(prevValues, currentValues) => prevValues.role !== currentValues.role}
-                >
-                    {({ getFieldValue }) =>
-                    getFieldValue('role') === 'Other' ? (
-                        <Form.Item name="customizeRole" label="Customize Role" rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                    ) : null
-                    }
-                </Form.Item>
-                <Form.Item name="address" label="Address" rules={[{ required: true }]}>
-                    <Input 
-                        placeholder="Fill your address"
-                        onChange={ handleAddressChange } 
-                        value={ user.address }
+                        value={ data.lastName }
                     />
                 </Form.Item>
                 <Form.Item {...tailLayout}>
                     <Space>
-                        <Button onClick={handleFill}>
-                            Fill form
-                        </Button>
                         <Button onClick={handleReset}>
                             Reset
                         </Button>
@@ -177,7 +90,7 @@ const UserForm = ({onSubmit}) => {
                     </Space>
                 </Form.Item>
             </Form>
-    </div>
+        </div>
     );
 };
 

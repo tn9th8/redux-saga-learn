@@ -12,16 +12,11 @@ const onDelete = (id) => {
     message.success(`The id-${id} user was deleted`);
 };
 
-
 function useListPage({apiObject, page}) {
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({limit: 5, offset: 0, total: 0});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
-    const onUpdate = (id) => {
-        navigate(`/users/form/${id}`);
-    };
     
     useEffect(() => {
         setLoading(true);
@@ -52,7 +47,7 @@ function useListPage({apiObject, page}) {
 
     const renderAction = (_, { id }) => (
         <Flex wrap gap="small">
-            <Button type="primary" onClick={ () => onUpdate(id) } style={{ background: "Orange", borderColor: "Orange" }}>
+            <Button type="primary" onClick={ () => navigate(`/users/form/${id}`) } style={{ background: "Orange", borderColor: "Orange" }}>
                 Update
             </Button>
             <Popconfirm
