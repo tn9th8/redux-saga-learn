@@ -102,15 +102,14 @@ const preprocessData = (users) => {
   });
 }
 
-
 const UsersList = ({ users, onDeleteUser }) => {
-    const [pageNum, setPageNum] = useState(1);
-    let { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: pageNum}) 
+    const [page, setPage] = useState(1);
+    const { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: page}) 
 
     data = preprocessData(data)
 
     const handlePageChange = (page) => {
-      setPageNum(page); 
+      setPage(page); 
   };
 
     return (
