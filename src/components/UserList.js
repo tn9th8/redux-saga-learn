@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Tag, Button, Flex, message, Popconfirm } from 'antd';
 import useListPage from "../customize/useListPage";
@@ -108,7 +108,7 @@ const preprocessPagination = (pagination) => {
     limit: 5,
   }
 
-  console.log('pagination', pagination)
+  console.log('pagination 1', pagination)
 
   const handlePageChange = (page) => {
     console.log(page);
@@ -119,6 +119,8 @@ const preprocessPagination = (pagination) => {
       total: 12
     }
     handlePaginationAnt()
+
+    console.log('pagination 2', pagination)
   }
 
   function handlePaginationAnt() { 
@@ -137,12 +139,30 @@ const preprocessPagination = (pagination) => {
 
 
 const UsersList = ({ users, onDeleteUser }) => {
-    const { data, pagination } = useListPage(apiConfig.user)
-    const dataSource = preprocessData(data)
-    const paginationAnt = preprocessPagination(pagination);
+    const [pageNum, setPageNum] = useState(1);
+    let { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: pageNum}) 
+
+
+    data = preprocessData(data)
+
+    const handlePageChange = (page) => {
+      setPageNum(page); 
+  };
 
     return (
-      <Table columns={columns(onDeleteUser)} dataSource={dataSource} pagination={paginationAnt}/>
+      <Table 
+        loading={loading}
+        columns={columns(onDeleteUser)} 
+        dataSource={data} 
+        pagination={{
+          pageSize: pagination.limit,
+          total: pagination.total,
+          onChange: handlePageChange
+          // pageSize: pagination.limit, // Số mục trên mỗi trang
+          // showSizeChanger: true, // Cho phép chọn số mục trên trang
+          // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
+        }}
+      />
     )
 };
 

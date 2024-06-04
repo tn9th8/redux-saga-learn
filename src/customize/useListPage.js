@@ -1,42 +1,39 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 
-function useListPage(apiObject) {
+function useListPage({apiObject, page}) {
     const [data, setData] = useState([]);
-    const [pagination, setPagination] = useState({limit: 0, offset: 0, total: 0 });
-
-    // useEffect(() => {
-    //     // Gọi API để lấy danh sách dữ liệu
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await fetch(apiConfig.getlist);
-    //             const result = await response.json();
-    //             setData(result.data); // Giả sử API trả về mảng dữ liệu
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
-
-    //     fetchData();
-    // }, [apiConfig.getlist]);
-
+    const [pagination, setPagination] = useState({limit: 5, offset: 0, total: 0});
+    const [loading, setLoading] = useState(false);
+    
     useEffect(() => {
-        // Gọi API để lấy danh sách dữ liệu
+        setLoading(true)
         const fetchData = async () => {
             try {
-                const response = await axios.get(apiObject.getList.baseURL); // console.log('useListPage: response: ', response);
+                const response = await axios.get(apiObject.getList.baseURL, {
+                    params: {
+                        offset: (page - 1) * pagination.limit,
+                        limit: pagination.limit
+                    }
+                });
                 const { data, limit, offset, total } = response.data
                 setData(data); 
-                setPagination({ limit, offset, total })
+                setPagination({ 
+                    limit: +limit, 
+                    offset: +offset, 
+                    total 
+                })
+                setLoading(false);
             } catch (error) {
-                console.error('Error fetching data by axios:', error);
+                // to do
+                console.log('error')
             }
         };
 
         fetchData();
-    }, [apiObject.getList.baseURL]);
+    }, [apiObject.getList.baseURL, page]);
 
-    return { data, pagination };
+    return { data, pagination, loading };
 }
 
 export default useListPage;
