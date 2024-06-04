@@ -2,7 +2,6 @@ import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { applyMiddleware, legacy_createStore as createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import App from './components/App';
@@ -21,9 +20,7 @@ sagaMiddleware.run(rootSaga);
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <BrowserRouter>
-        <App /> 
-      </BrowserRouter>
+      <App /> 
     </React.StrictMode>
   </Provider>
 );
