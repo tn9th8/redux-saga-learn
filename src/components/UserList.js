@@ -102,46 +102,10 @@ const preprocessData = (users) => {
   });
 }
 
-const preprocessPagination = (pagination) => {
-  pagination = {
-    ...pagination,
-    limit: 5,
-  }
-
-  console.log('pagination 1', pagination)
-
-  const handlePageChange = (page) => {
-    console.log(page);
-    pagination = {
-      ...pagination,
-      limit: 5, 
-      offset: page * 5 + 1, 
-      total: 12
-    }
-    handlePaginationAnt()
-
-    console.log('pagination 2', pagination)
-  }
-
-  function handlePaginationAnt() { 
-    return {
-      current: pagination.offset / pagination.limit + 1, // Trang hiện tại
-      pageSize: pagination.limit, // Số mục trên mỗi trang
-      total: pagination.total, // Tổng số mục dữ liệu
-      // showSizeChanger: true, // Cho phép chọn số mục trên trang
-      // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
-      onChange: handlePageChange // Hàm xử lý khi thay đổi trang
-    }
-  }
-
-  return handlePaginationAnt();
-}
-
 
 const UsersList = ({ users, onDeleteUser }) => {
     const [pageNum, setPageNum] = useState(1);
     let { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: pageNum}) 
-
 
     data = preprocessData(data)
 

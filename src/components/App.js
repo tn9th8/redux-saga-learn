@@ -42,7 +42,8 @@ class App extends Component {
   // };
 
   render() {
-    const users = this.props.users; // console.log('app: user: ', users)
+    const users = this.props.users; 
+    console.log('app: user: ', users)
 
     return (
       <div style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>

@@ -31,7 +31,7 @@ function useListPage({apiObject, page}) {
         };
 
         fetchData();
-    }, [apiObject.getList.baseURL, page]);
+    }, [apiObject.getList.baseURL, page, pagination.limit]);
 
     return { data, pagination, loading };
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form, Input, InputNumber, Select, message, Space } from 'antd';
-import useCustom from '../customize/useModal';
+import useModal from '../customize/useModal';
 
 const { Option } = Select;
 
@@ -14,7 +14,7 @@ const tailLayout = {
 };
 
 const ModalCreateUser = ({onSubmit}) => {
-    const [open, handle] = useCustom();
+    const [open, handle] = useModal();
     const [form] = Form.useForm();
     const [user, setUser] = useState({ 
         firstName:'', 
