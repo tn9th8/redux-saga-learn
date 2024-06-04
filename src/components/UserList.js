@@ -32,17 +32,11 @@ const columns = (onDeleteUser) => [
     title: 'Age',
     dataIndex: 'age',
     key: 'age',
-    // render: (_, { age }) => (
-    //   <>{ age }</>
-    // ),
   },
   {
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
-    // render: (_, { address }) => (
-    //   <>{ address }</>
-    // ),
   },
   {
     title: 'Role',
