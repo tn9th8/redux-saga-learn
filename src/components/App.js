@@ -37,26 +37,21 @@ class App extends Component {
     this.props.getNonDeleteUsersRequest(userId);
   };
 
-  // handleCloseAlert = () => {
-  //   this.props.fireUserError('');
-  // };
-
   render() {
     const users = this.props.users; 
     console.log('app: user: ', users)
 
     return (
       <div style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
-        {/* <Alert color="danger" isOpen={ !!users.error } toggle={ this.handleCloseAlert }>
-          { users.error }
-        </Alert> */}
-
         <ModalCreateUser onSubmit={ this.handleSubmit } />
+        <UsersList />
+
+        {/* <UsersList 
+           users={ users.items } 
+           onDeleteUser={ this.handleDeleteUserConfirm } 
+        /> */}
         
-        <UsersList 
-          users={ users.items } 
-          onDeleteUser={ this.handleDeleteUserConfirm } 
-        /></div>
+      </div>
     );
   }
 }
