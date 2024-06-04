@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { Button, Flex, Popconfirm, message } from 'antd';
 import axios from "axios";
-import { message, Button, Popconfirm, Flex } from 'antd';
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const onCancel = () => {
     message.error('No user was deleted');
@@ -11,10 +12,12 @@ const onDelete = (id) => {
     message.success(`The id-${id} user was deleted`);
 };
 
+
 function useListPage({apiObject, page}) {
     const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({limit: 5, offset: 0, total: 0});
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     
     useEffect(() => {
         setLoading(true);
@@ -43,17 +46,26 @@ function useListPage({apiObject, page}) {
         fetchData();
     }, [apiObject.getList.baseURL, page, pagination.limit]);
 
+    const onUpdate = () => {
+        navigate('/users/form');
+    };
+
     const renderAction = (_, { id }) => (
         <Flex wrap gap="small">
+            <Button type="primary" onClick={ onUpdate } style={{ background: "Orange", borderColor: "Orange" }}>
+                Update
+            </Button>
             <Popconfirm
-                title="Sure to delete?"
-                description="Are you sure to delete this user?"
-                onConfirm={ () => onDelete(id) }
-                onCancel={ onCancel }
-                okText="Yes"
-                cancelText="No"
+                    title="Sure to delete?"
+                    description="Are you sure to delete this user?"
+                    onConfirm={ () => onDelete(id) }
+                    onCancel={ onCancel }
+                    okText="Yes"
+                    cancelText="No"
                 >
-                <Button type="primary" danger>Delete</Button>
+                <Button type="primary" danger>
+                    Delete
+                </Button>
             </Popconfirm>
         </Flex>
     );

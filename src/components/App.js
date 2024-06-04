@@ -9,6 +9,8 @@ import {
 } from '../actions/users';
 import ModalCreateUser from './ModalCreateUser';
 import UsersList from './UserList';
+import { Routes, Route} from 'react-router-dom';
+import UserForm from './UserForm';
 
 class App extends Component {
   constructor(props) {
@@ -42,9 +44,21 @@ class App extends Component {
     console.log('app: user: ', users)
 
     return (
-      <div style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
-        <ModalCreateUser onSubmit={ this.handleSubmit } />
-        <UsersList />
+      <div className='app' style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
+        <Routes>
+          <Route path='/users/list' element={
+            <div>
+                <ModalCreateUser onSubmit={ this.handleSubmit } />
+                <UsersList />
+            </div>
+          } />
+          <Route path='/users/form' element={
+            <div>
+              <UserForm />
+            </div>
+          } />
+        </Routes>
+
 
         {/* <UsersList 
            users={ users.items } 

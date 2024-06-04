@@ -1,12 +1,13 @@
+import axios from 'axios';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App'
-import reportWebVitals from './reportWebVitals';
-import axios  from 'axios';
-import reducers from './reducers';
 import { Provider } from 'react-redux';
-import { legacy_createStore as createStore, applyMiddleware } from 'redux';
+import { BrowserRouter } from 'react-router-dom';
+import { applyMiddleware, legacy_createStore as createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import App from './components/App';
+import reducers from './reducers';
+import reportWebVitals from './reportWebVitals';
 import rootSaga from './sagas';
 
 axios.defaults.withCredentials = true;
@@ -20,7 +21,9 @@ sagaMiddleware.run(rootSaga);
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-      <App /> 
+      <BrowserRouter>
+        <App /> 
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>
 );
