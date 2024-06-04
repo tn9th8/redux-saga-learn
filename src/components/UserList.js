@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { Table, Tag } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Table, Tag, Button, Flex, message, Popconfirm } from 'antd';
-import useListPage from "../customize/useListPage";
-// import apiConfig from '../api/ApiConfig';
+import React, { useState } from "react";
 import apiConfig from '../api/apiConfig';
+import useListPage from "../customize/useListPage";
 
 const getRandomElement = (arr) => {
   const randomIndex = Math.floor(Math.random() * arr.length);
@@ -14,12 +13,8 @@ const rawTags = [ 'Project Manager', 'Business Analyst', 'Developer', 'QA/QC' ];
 const rawAddress = ['Thu Duc, HCM, VN', 'Q9, HCM, VN', 'Q2, HCM, VN'];
 const rawAge = [22, 23, 24, 25, 26, 27, 28, 29];
 
-const cancel = (e) => {
-  console.log('e', e);
-  message.error('No user was deleted');
-};
-
-const columns = (onDeleteUser) => [
+// const columns = (onDeleteUser) => [
+const columns = (renderAction) => [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -64,20 +59,7 @@ const columns = (onDeleteUser) => [
   {
     title: 'Action',
     key: 'action',
-    render: (_, { id }) => (
-      <Flex wrap gap="small">
-        <Popconfirm
-          title="Sure to delete?"
-          description="Are you sure to delete this user?"
-          onConfirm={ () => onDeleteUser(id) }
-          onCancel={ cancel }
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button type="primary" danger>Delete</Button>
-        </Popconfirm>
-      </Flex>
-    ),
+    render: renderAction
   },
 ];
 
@@ -96,20 +78,20 @@ const preprocessData = (users) => {
   });
 }
 
-const UsersList = ({ users, onDeleteUser }) => {
+const UsersList = () => {
     const [page, setPage] = useState(1);
-    const { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: page}) 
+    const { data, pagination, loading, renderAction } = useListPage({apiObject: apiConfig.user, page: page}) 
 
     const dataSource = preprocessData(data)
 
     const handlePageChange = (page) => {
       setPage(page); 
-  };
+    };
 
     return (
       <Table 
         loading={loading}
-        columns={columns(onDeleteUser)} 
+        columns={columns(renderAction)} 
         dataSource={dataSource} 
         pagination={{
           pageSize: pagination.limit,

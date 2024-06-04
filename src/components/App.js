@@ -9,6 +9,8 @@ import {
 } from '../actions/users';
 import ModalCreateUser from './ModalCreateUser';
 import UsersList from './UserList';
+import { Routes, Route} from 'react-router-dom';
+import UserForm from './UserForm';
 
 class App extends Component {
   constructor(props) {
@@ -37,26 +39,32 @@ class App extends Component {
     this.props.getNonDeleteUsersRequest(userId);
   };
 
-  // handleCloseAlert = () => {
-  //   this.props.fireUserError('');
-  // };
-
   render() {
-    const users = this.props.users; 
-    console.log('app: user: ', users)
+    // const users = this.props.users; // console.log('app: user: ', users)
 
     return (
-      <div style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
-        {/* <Alert color="danger" isOpen={ !!users.error } toggle={ this.handleCloseAlert }>
-          { users.error }
-        </Alert> */}
+      <div className='app' style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
+        <Routes>
+          <Route path='/users/list' element={
+            <div>
+                <ModalCreateUser onSubmit={ this.handleSubmit } />
+                <UsersList />
+            </div>
+          } />
+          <Route path='/users/form/:id' element={
+            <div>
+              <UserForm />
+            </div>
+          } />
+        </Routes>
 
-        <ModalCreateUser onSubmit={ this.handleSubmit } />
+
+        {/* <UsersList 
+           users={ users.items } 
+           onDeleteUser={ this.handleDeleteUserConfirm } 
+        /> */}
         
-        <UsersList 
-          users={ users.items } 
-          onDeleteUser={ this.handleDeleteUserConfirm } 
-        /></div>
+      </div>
     );
   }
 }
