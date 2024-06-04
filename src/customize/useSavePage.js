@@ -9,10 +9,12 @@ function useSavePage({apiObject, id}) {
     
     useEffect(() => {
         const fetchData = async () => {
-            await axios
-                .get(apiObject.getById.baseURL.replace(':id', id))
-                .then(res => setData({...res.data}))
-                .catch(err => console.log(err))
+            try {
+                const res = await axios.get(apiObject.getById.baseURL.replace(':id', id))
+                setData({...res.data})
+            } catch (error) {
+                message.error(`Failed to fetch by id the id-${id}`)
+            }
         };
 
         fetchData();
