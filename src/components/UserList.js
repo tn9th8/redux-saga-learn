@@ -139,63 +139,29 @@ const preprocessPagination = (pagination) => {
 
 
 const UsersList = ({ users, onDeleteUser }) => {
-    // const [data, pagination, setPagination] = useListPage(apiConfig.user)
-    let { data, pagination } = useListPage(apiConfig.user)
+    const [pageNum, setPageNum] = useState(1);
+    let { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: pageNum}) 
 
-    // pagination = {
-    //   ...pagination,
-    //   limit: 5,
-    // }
-
-    // const handlePageChange = (page) => {
-    //   // console.log(page);
-    //   // setPagination = {
-    //   //   ...pagination,
-    //   //   limit: 5, 
-    //   //   offset: page * 5 + 1, 
-    //   //   total: 12
-    //   // }
-    //   // handlePaginationAnt()
-  
-    //   // console.log('pagination 2', pagination)
-    //   setPaginationAnt({
-    //     ...paginationAnt,
-    //     current: page * pagination.limit + 1,
-    //   })
-    // }
-
-    // const { paginationAnt, setPaginationAnt } = useState({
-    //   current: pagination.offset / pagination.limit + 1, // Trang hiện tại
-    //   pageSize: pagination.limit, // Số mục trên mỗi trang
-    //   total: pagination.total, // Tổng số mục dữ liệu
-    //   // showSizeChanger: true, // Cho phép chọn số mục trên trang
-    //   // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
-    //   onChange: handlePageChange // Hàm xử lý khi thay đổi trang
-    // })
 
     data = preprocessData(data)
-    // pagination = preprocessPagination(pagination);
 
-    // console.log('pagination 1', pagination)
-  
-
-  
-    // function handlePaginationAnt() { 
-    //   return {
-    //     current: pagination.offset / pagination.limit + 1, // Trang hiện tại
-    //     pageSize: pagination.limit, // Số mục trên mỗi trang
-    //     total: pagination.total, // Tổng số mục dữ liệu
-    //     // showSizeChanger: true, // Cho phép chọn số mục trên trang
-    //     // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
-    //     onChange: handlePageChange // Hàm xử lý khi thay đổi trang
-    //   }
-    // }
-  
-    // return handlePaginationAnt();
+    const handlePageChange = (page) => {
+      setPageNum(page); 
+  };
 
     return (
-      <Table columns={columns(onDeleteUser)} dataSource={data} 
-      // pagination={paginationAnt}
+      <Table 
+        loading={loading}
+        columns={columns(onDeleteUser)} 
+        dataSource={data} 
+        pagination={{
+          pageSize: pagination.limit,
+          total: pagination.total,
+          onChange: handlePageChange
+          // pageSize: pagination.limit, // Số mục trên mỗi trang
+          // showSizeChanger: true, // Cho phép chọn số mục trên trang
+          // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
+        }}
       />
     )
 };
