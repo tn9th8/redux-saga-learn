@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import { message } from 'antd';
 
 function useListPage({apiObject, page}) {
     const [data, setData] = useState([]);
@@ -25,13 +26,12 @@ function useListPage({apiObject, page}) {
                 })
                 setLoading(false);
             } catch (error) {
-                // to do
-                console.log('error')
+                message.error('An error occurred while attempting to call api fetching user');
             }
         };
 
         fetchData();
-    }, [apiObject.getList.baseURL, page]);
+    }, [apiObject.getList.baseURL, page, pagination.limit]);
 
     return { data, pagination, loading };
 }

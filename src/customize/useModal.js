@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useCustom(initialValue = false) {
+export default function useModal(initialValue = false) {
     const [open, setOpen] = useState(initialValue);
 
     const handle = {
