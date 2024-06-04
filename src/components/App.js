@@ -52,7 +52,7 @@ class App extends Component {
                 <UsersList />
             </div>
           } />
-          <Route path='/users/form' element={
+          <Route path='/users/form/:id' element={
             <div>
               <UserForm />
             </div>

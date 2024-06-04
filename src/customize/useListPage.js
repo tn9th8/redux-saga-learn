@@ -18,6 +18,10 @@ function useListPage({apiObject, page}) {
     const [pagination, setPagination] = useState({limit: 5, offset: 0, total: 0});
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const onUpdate = (id) => {
+        navigate(`/users/form/${id}`);
+    };
     
     useEffect(() => {
         setLoading(true);
@@ -46,13 +50,9 @@ function useListPage({apiObject, page}) {
         fetchData();
     }, [apiObject.getList.baseURL, page, pagination.limit]);
 
-    const onUpdate = () => {
-        navigate('/users/form');
-    };
-
     const renderAction = (_, { id }) => (
         <Flex wrap gap="small">
-            <Button type="primary" onClick={ onUpdate } style={{ background: "Orange", borderColor: "Orange" }}>
+            <Button type="primary" onClick={ () => onUpdate(id) } style={{ background: "Orange", borderColor: "Orange" }}>
                 Update
             </Button>
             <Popconfirm
