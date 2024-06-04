@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table, Tag, Button, Flex, message, Popconfirm } from 'antd';
 import useListPage from "../customize/useListPage";
@@ -108,7 +108,7 @@ const preprocessPagination = (pagination) => {
     limit: 5,
   }
 
-  console.log('pagination', pagination)
+  console.log('pagination 1', pagination)
 
   const handlePageChange = (page) => {
     console.log(page);
@@ -119,6 +119,8 @@ const preprocessPagination = (pagination) => {
       total: 12
     }
     handlePaginationAnt()
+
+    console.log('pagination 2', pagination)
   }
 
   function handlePaginationAnt() { 
@@ -137,12 +139,64 @@ const preprocessPagination = (pagination) => {
 
 
 const UsersList = ({ users, onDeleteUser }) => {
-    const { data, pagination } = useListPage(apiConfig.user)
-    const dataSource = preprocessData(data)
-    const paginationAnt = preprocessPagination(pagination);
+    // const [data, pagination, setPagination] = useListPage(apiConfig.user)
+    let { data, pagination } = useListPage(apiConfig.user)
+
+    // pagination = {
+    //   ...pagination,
+    //   limit: 5,
+    // }
+
+    // const handlePageChange = (page) => {
+    //   // console.log(page);
+    //   // setPagination = {
+    //   //   ...pagination,
+    //   //   limit: 5, 
+    //   //   offset: page * 5 + 1, 
+    //   //   total: 12
+    //   // }
+    //   // handlePaginationAnt()
+  
+    //   // console.log('pagination 2', pagination)
+    //   setPaginationAnt({
+    //     ...paginationAnt,
+    //     current: page * pagination.limit + 1,
+    //   })
+    // }
+
+    // const { paginationAnt, setPaginationAnt } = useState({
+    //   current: pagination.offset / pagination.limit + 1, // Trang hiện tại
+    //   pageSize: pagination.limit, // Số mục trên mỗi trang
+    //   total: pagination.total, // Tổng số mục dữ liệu
+    //   // showSizeChanger: true, // Cho phép chọn số mục trên trang
+    //   // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
+    //   onChange: handlePageChange // Hàm xử lý khi thay đổi trang
+    // })
+
+    data = preprocessData(data)
+    // pagination = preprocessPagination(pagination);
+
+    // console.log('pagination 1', pagination)
+  
+
+  
+    // function handlePaginationAnt() { 
+    //   return {
+    //     current: pagination.offset / pagination.limit + 1, // Trang hiện tại
+    //     pageSize: pagination.limit, // Số mục trên mỗi trang
+    //     total: pagination.total, // Tổng số mục dữ liệu
+    //     // showSizeChanger: true, // Cho phép chọn số mục trên trang
+    //     // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
+    //     onChange: handlePageChange // Hàm xử lý khi thay đổi trang
+    //   }
+    // }
+  
+    // return handlePaginationAnt();
 
     return (
-      <Table columns={columns(onDeleteUser)} dataSource={dataSource} pagination={paginationAnt}/>
+      <Table columns={columns(onDeleteUser)} dataSource={data} 
+      // pagination={paginationAnt}
+      />
     )
 };
 

@@ -24,18 +24,24 @@ function useListPage(apiObject) {
         // Gọi API để lấy danh sách dữ liệu
         const fetchData = async () => {
             try {
-                const response = await axios.get(apiObject.getList.baseURL); // console.log('useListPage: response: ', response);
+                const response = await axios.get(apiObject.getList.baseURL, {
+                    params: {
+                        offset: 0,
+                        limit: 5
+                    }
+                }); // console.log('useListPage: response: ', response);
                 const { data, limit, offset, total } = response.data
                 setData(data); 
                 setPagination({ limit, offset, total })
             } catch (error) {
-                console.error('Error fetching data by axios:', error);
+                // to do
             }
         };
 
         fetchData();
     }, [apiObject.getList.baseURL]);
 
+    // return [data, pagination, setPagination];
     return { data, pagination };
 }
 
