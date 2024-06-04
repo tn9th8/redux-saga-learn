@@ -27,6 +27,7 @@ function useListPage({apiObject, page}) {
                 setLoading(false);
             } catch (error) {
                 message.error('An error occurred while attempting to call api fetching user');
+                setLoading(false);
             }
         };
 

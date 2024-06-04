@@ -32,17 +32,17 @@ const columns = (onDeleteUser) => [
     title: 'Age',
     dataIndex: 'age',
     key: 'age',
-    render: (_, { age }) => (
-      <>{ age }</>
-    ),
+    // render: (_, { age }) => (
+    //   <>{ age }</>
+    // ),
   },
   {
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
-    render: (_, { address }) => (
-      <>{ address }</>
-    ),
+    // render: (_, { address }) => (
+    //   <>{ address }</>
+    // ),
   },
   {
     title: 'Role',
@@ -106,7 +106,7 @@ const UsersList = ({ users, onDeleteUser }) => {
     const [page, setPage] = useState(1);
     const { data, pagination, loading } = useListPage({apiObject: apiConfig.user, page: page}) 
 
-    data = preprocessData(data)
+    const dataSource = preprocessData(data)
 
     const handlePageChange = (page) => {
       setPage(page); 
@@ -116,7 +116,7 @@ const UsersList = ({ users, onDeleteUser }) => {
       <Table 
         loading={loading}
         columns={columns(onDeleteUser)} 
-        dataSource={data} 
+        dataSource={dataSource} 
         pagination={{
           pageSize: pagination.limit,
           total: pagination.total,
