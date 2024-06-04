@@ -18,6 +18,7 @@ const UserForm = () => {
     const [data, setData, updateData] = useSavePage({apiObject: apiConfig.user, id})
     const [form] = Form.useForm();
     const navigate = useNavigate();
+    console.log(data);
 
     // handle on change inputs
     const handleFirstNameChange = (value) => {
@@ -62,7 +63,7 @@ const UserForm = () => {
                 name="control-hooks"
                 onFinish={handleFinish}
                 style={{ maxWidth: 600 }}
-                // initialValues={{firstName: data.firstName, lastName: data.lastName}}
+                //initialValues={{firstName: data.firstName, lastName: data.lastName}}
             >
                 <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
                     <Input 
