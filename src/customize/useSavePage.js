@@ -13,16 +13,17 @@ function useSavePage({apiObject, id}) {
         const fetchData = async () => {
             // console.log('3.2 ', id)
             try {
-                const res = await axios.get(apiObject.getById.baseURL.replace(':id', id))
-                setData({...res.data})
+                const res = await axios.get(apiObject.getById.baseURL.replace(':id', id));
+                setData({...res.data});
+                form.setFieldsValue(data);
                 // console.log('3.3 ', id)
             } catch (error) {
                 message.error(`Failed to fetch by id the id-${id}`)
             }
         };
-        
+
         fetchData();
-    }, [apiObject.getById.baseURL, id]);
+    }, [apiObject.getById.baseURL, id, form, data]);
     
     const updateData = async (data) => {
         try {
@@ -32,9 +33,8 @@ function useSavePage({apiObject, id}) {
             message.error(`Failed to update the id-${data.id}`)
         }
     };
-    
+     
     // console.log('4 data ', data)
-    form.setFieldsValue(data);
     return [data, form, setData, updateData];
 }
 
