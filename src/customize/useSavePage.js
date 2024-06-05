@@ -27,7 +27,7 @@ function useSavePage({apiObject, id}) {
     const updateData = async (data) => {
         try {
             await axios.put(apiObject.update.baseURL.replace(':id', data.id), data)
-            navigate('/users/list');
+            navigate(`${apiObject.getList.baseURL}/list`);
         } catch (error) {
             message.error(`Failed to update the id-${data.id}`)
         }

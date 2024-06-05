@@ -47,7 +47,7 @@ function useListPage({apiObject, page}) {
 
     const renderAction = (_, { id }) => (
         <Flex wrap gap="small">
-            <Button type="primary" onClick={ () => navigate(`/users/form/${id}`) } style={{ background: "Orange", borderColor: "Orange" }}>
+            <Button type="primary" onClick={ () => navigate(`${apiObject.getList.baseURL}/form/${id}`) } style={{ background: "Orange", borderColor: "Orange" }}>
                 Update
             </Button>
             <Popconfirm
