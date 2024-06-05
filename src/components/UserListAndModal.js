@@ -1,11 +1,11 @@
 import UsersList from './UserList';
-import ModalUser from './ModalUser';
+import UserModal from './UserModal';
 
 
 const UsersListAndModal = () => {
     return (
       <div>
-        <ModalUser />
+        <UserModal />
         <UsersList />
       </div>
     )

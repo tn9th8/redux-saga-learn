@@ -45,7 +45,7 @@ class App extends Component {
         <div className='App' style={{margin: '0 auto', padding: '20px', maxWidth: '800px'}}>
           <Routes>
             {routesConfig.map((route) => (
-              <Route path={route.path} element={<route.element />} />
+              <Route key={route.path} path={route.path} element={<route.element />} />
             ))}
           </Routes>   
         </div>
