@@ -13,7 +13,7 @@ const tailLayout = {
     wrapperCol: { offset: 6, span: 16 },
 };
 
-const ModalCreateUser = () => {
+const ModalUser = () => {
     const [open, handle] = useModal();
     const [form] = Form.useForm();
     const [user, setUser] = useState({ 
@@ -196,4 +196,4 @@ const ModalCreateUser = () => {
     );
 };
 
-export default ModalCreateUser;
+export default ModalUser;

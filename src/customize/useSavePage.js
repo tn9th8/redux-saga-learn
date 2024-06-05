@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Form } from "antd";
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 function useSavePage({apiObject, id}) {
     const [data, setData] = useState({});
     const navigate = useNavigate();
+    const [form] = Form.useForm();
     
     useEffect(() => {
         // console.log('3.1 ', id)
@@ -19,7 +20,7 @@ function useSavePage({apiObject, id}) {
                 message.error(`Failed to fetch by id the id-${id}`)
             }
         };
-
+        
         fetchData();
     }, [apiObject.getById.baseURL, id]);
     
@@ -32,8 +33,9 @@ function useSavePage({apiObject, id}) {
         }
     };
     
-    console.log('4 data ', data)
-    return [data, setData, updateData];
+    // console.log('4 data ', data)
+    form.setFieldsValue(data);
+    return [data, form, setData, updateData];
 }
 
 export default useSavePage;

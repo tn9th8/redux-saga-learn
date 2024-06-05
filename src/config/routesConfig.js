@@ -1,21 +1,18 @@
-import UsersList from '../components/UserList';
 import UserForm from '../components/UserForm';
-import ModalCreateUser from '../components/ModalCreateUser';
+import UsersListAndModal from '../components/UserListAndModal';
 
 const routesConfig = [
-    {
+    {   
+        title: 'Users list page',
         module: 'users',
         path: '/users/list',
-        element:    
-            <div>
-                <ModalCreateUser />
-                <UsersList />
-            </div>,
+        element: UsersListAndModal,
     },
     {   
+        title: 'User form page',
         module: 'users',
         path: '/users/form/:id',
-        element: <UserForm />,
+        element: UserForm,
     },
 ]
     

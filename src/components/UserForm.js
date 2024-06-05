@@ -15,8 +15,8 @@ const tailLayout = {
 
 const UserForm = () => {
     const { id } = useParams(); 
-    const [data, setData, updateData] = useSavePage({apiObject: apiConfig.user, id})
-    const [form] = Form.useForm();
+    const [data, form, setData, updateData] = useSavePage({apiObject: apiConfig.user, id})
+    // const [form] = Form.useForm();
     const navigate = useNavigate();
     // 1 id data ', id, data);
 
@@ -55,7 +55,6 @@ const UserForm = () => {
         form.resetFields();
     };
 
-    form.setFieldsValue(data);
     return (
         <div>
             <Form
