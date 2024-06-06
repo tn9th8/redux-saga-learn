@@ -13,15 +13,15 @@ const onDelete = (id) => {
 };
 
 function useListPage({ apiObject, page }) {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState({});
   const [pagination, setPagination] = useState({
     limit: 5,
     offset: 0,
     total: 0,
   });
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [filter, setFilter] = useState({});
 
   useEffect(() => {
     setLoading(true);
@@ -77,19 +77,13 @@ function useListPage({ apiObject, page }) {
     </Flex>
   );
 
-  const handleFilter = {
-    user: (user) => {
-      setFilter({
-        // fistName: user?.fistName && user.fistName !== "" : user.firstName,
-        firstName:
-          user?.firstName && user.firstName !== "" ? user.firstName : null,
-        lastName: user?.lastName && user.lastName !== "" ? user.lastName : null,
-        gender: user?.gender,
-      });
-    },
+  const handle = {
+    filter: (values) => {
+      setFilter(values);
+    }
   };
 
-  return { data, pagination, loading, renderAction, handleFilter };
+  return { data, pagination, loading, renderAction, handle };
 }
 
 export default useListPage;

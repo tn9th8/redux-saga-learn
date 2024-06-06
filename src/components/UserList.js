@@ -34,14 +34,13 @@ const preprocessData = (users) => {
 
 const UsersList = () => {
   const [page, setPage] = useState(1);
-  const { data, pagination, loading, renderAction, handleFilter } = useListPage(
+  const { data, pagination, loading, renderAction, handle } = useListPage(
     {
       apiObject: apiConfig.user,
       page,
     }
   );
   const [form] = Form.useForm();
-  const [user, setUser] = useState({});
 
   const dataSource = preprocessData(data);
 
@@ -50,37 +49,17 @@ const UsersList = () => {
   };
 
   const handleReset = () => {
-    setUser({});
-    handleFilter.user(user);
+    handle.filter({});
     form.resetFields();
     // navigate(0);
   };
 
-  const handleSearch = () => {
-    // console.log(user);
-    handleFilter.user(user);
-  };
-
-  const handleFirstNameChange = (value) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      firstName: value,
-    }));
-  };
-
-  const handleLastNameChange = (value) => {
-    setUser((prevUser) => ({
-      ...prevUser,
-      lastName: value,
-    }));
-  };
-
-  const handleGenderChange = (e) => {
-    // console.log(e);
-    setUser((prevUser) => ({
-      ...prevUser,
-      gender: e.target.value,
-    }));
+  const handleSearch = (values) => {
+    handle.filter({
+        firstName: values?.firstName && values.firstName !== "" ? values.firstName : undefined,
+        lastName: values?.lastName && values.lastName !== "" ? values.lastName : undefined,
+        gender: values?.gender,
+    });
   };
 
   return (
@@ -95,20 +74,17 @@ const UsersList = () => {
           <Input
             style={{ width: "150px" }}
             placeholder="Fill your first name"
-            onChange={(e) => handleFirstNameChange(e.target.value)}
-            value={user.firstName}
           />
         </Form.Item>
         <Form.Item name="lastName" label="Last name">
           <Input
             style={{ width: "150px" }}
             placeholder="Fill your last name"
-            onChange={(e) => handleLastNameChange(e.target.value)}
-            value={user.lastName}
           />
         </Form.Item>
-        <Form.Item name="male" label="Male">
-          <Radio.Group onChange={handleGenderChange} value={user.gender}>
+        <Form.Item name="gender" label="Gender">
+          <Radio.Group 
+          >
             <Radio value="male">Male</Radio>
             <Radio value="female">Female</Radio>
           </Radio.Group>
