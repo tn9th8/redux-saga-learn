@@ -1,110 +1,143 @@
-import { Table, Tag } from 'antd';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Divider, Flex, Form, Input, Radio, Table } from "antd";
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState } from "react";
-import apiConfig from '../config/apiConfig'
+import apiConfig from "../config/apiConfig";
 import useListPage from "../customize/useListPage";
-
-const getRandomElement = (arr) => {
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
-}
-
-const rawTags = [ 'Project Manager', 'Business Analyst', 'Developer', 'QA/QC' ];
-const rawAddress = ['Thu Duc, HCM, VN', 'Q9, HCM, VN', 'Q2, HCM, VN'];
-const rawAge = [22, 23, 24, 25, 26, 27, 28, 29];
 
 // const columns = (onDeleteUser) => [
 const columns = (renderAction) => [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
     render: (_, { firstName, lastName }) => (
-      <>{ firstName } { lastName }</>
-    ),
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Role',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
       <>
-        { tags.map((tag) => {
-          let color = tag.length > 12 ? 'geekblue' : 'green';
-          if (tag === 'Project Manager') {
-            color = 'volcano';
-          }
-          if (tag === 'QA/QC') {
-            color = 'gold';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
+        {firstName} {lastName}
       </>
     ),
   },
   {
-    title: 'Action',
-    key: 'action',
-    render: renderAction
+    title: "Action",
+    key: "action",
+    render: renderAction,
   },
 ];
 
 const preprocessData = (users) => {
   return users.map((user) => {
-    const tags = [getRandomElement(rawTags)];
-    const address = getRandomElement(rawAddress);
-    const age = getRandomElement(rawAge);
     return {
       ...user,
       key: user.id,
-      age: user?.age ?? age,
-      tags: user?.role ?? tags,
-      address: user?.address ?? address,
-    }
+    };
   });
-}
+};
 
 const UsersList = () => {
-    const [page, setPage] = useState(1);
-    // const [object] = useState('users');
-    const { data, pagination, loading, renderAction } = useListPage({apiObject: apiConfig.user, page: page}) 
+  const [page, setPage] = useState(1);
+  const { data, pagination, loading, renderAction, handleFilter } = useListPage(
+    {
+      apiObject: apiConfig.user,
+      page,
+    }
+  );
+  const [form] = Form.useForm();
+  const [user, setUser] = useState({});
 
-    const dataSource = preprocessData(data)
+  const dataSource = preprocessData(data);
 
-    const handlePageChange = (page) => {
-      setPage(page); 
-    };
+  const handlePageChange = (page) => {
+    setPage(page);
+  };
 
-    return (
-      <Table 
+  const handleReset = () => {
+    setUser({});
+    handleFilter.user(user);
+    form.resetFields();
+    // navigate(0);
+  };
+
+  const handleSearch = () => {
+    // console.log(user);
+    handleFilter.user(user);
+  };
+
+  const handleFirstNameChange = (value) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      firstName: value,
+    }));
+  };
+
+  const handleLastNameChange = (value) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      lastName: value,
+    }));
+  };
+
+  const handleGenderChange = (e) => {
+    // console.log(e);
+    setUser((prevUser) => ({
+      ...prevUser,
+      gender: e.target.value,
+    }));
+  };
+
+  return (
+    <div>
+      <Form
+        form={form}
+        name="searching"
+        onFinish={handleSearch}
+        style={{ maxWidth: 600 }}
+      >
+        <Form.Item name="firstName" label="First name">
+          <Input
+            style={{ width: "150px" }}
+            placeholder="Fill your first name"
+            onChange={(e) => handleFirstNameChange(e.target.value)}
+            value={user.firstName}
+          />
+        </Form.Item>
+        <Form.Item name="lastName" label="Last name">
+          <Input
+            style={{ width: "150px" }}
+            placeholder="Fill your last name"
+            onChange={(e) => handleLastNameChange(e.target.value)}
+            value={user.lastName}
+          />
+        </Form.Item>
+        <Form.Item name="male" label="Male">
+          <Radio.Group onChange={handleGenderChange} value={user.gender}>
+            <Radio value="male">Male</Radio>
+            <Radio value="female">Female</Radio>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item>
+          <Flex wrap gap="small" style={{ marginBottom: 16 }}>
+            <Button type="primary" htmlType="submit">
+              Search
+            </Button>
+            <Button onClick={handleReset}>Reset</Button>
+          </Flex>
+        </Form.Item>
+      </Form>
+      <Divider />
+      <Table
         loading={loading}
-        columns={columns(renderAction)} 
-        dataSource={dataSource} 
+        columns={columns(renderAction)}
+        dataSource={dataSource}
         pagination={{
           pageSize: pagination.limit,
           total: pagination.total,
-          onChange: handlePageChange
+          onChange: handlePageChange,
           // pageSize: pagination.limit, // Số mục trên mỗi trang
           // showSizeChanger: true, // Cho phép chọn số mục trên trang
           // pageSizeOptions: ['10', '20', '30'], // Các tùy chọn số mục trên trang
         }}
       />
-    )
+    </div>
+  );
 };
 
 export default UsersList;
-
